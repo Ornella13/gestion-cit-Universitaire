@@ -1,0 +1,347 @@
+-- phpMyAdmin SQL Dump
+-- version 5.0.4
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Apr 29, 2026 at 11:08 PM
+-- Server version: 10.4.17-MariaDB
+-- PHP Version: 8.0.2
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `gestion_cite_universitaire`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `buildings`
+--
+
+CREATE TABLE `buildings` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `buildings`
+--
+
+INSERT INTO `buildings` (`id`, `name`) VALUES
+(1, 'bloc1'),
+(2, 'Bloc2'),
+(3, 'Bloc3');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `housing_requests`
+--
+
+CREATE TABLE `housing_requests` (
+  `id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL,
+  `request_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `status` enum('pending','approved','rejected') DEFAULT 'pending',
+  `payment_slip_url` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `maintenance_tickets`
+--
+
+CREATE TABLE `maintenance_tickets` (
+  `id` int(11) NOT NULL,
+  `title` varchar(200) NOT NULL,
+  `description` text DEFAULT NULL,
+  `room_id` int(11) DEFAULT NULL,
+  `priority` enum('low','medium','high') DEFAULT 'medium',
+  `status` enum('pending','in-progress','resolved') DEFAULT 'pending',
+  `assigned_tech` varchar(100) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payments`
+--
+
+CREATE TABLE `payments` (
+  `id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `payment_type` enum('monthly','annual') NOT NULL,
+  `payment_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `slip_url` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `rooms`
+--
+
+CREATE TABLE `rooms` (
+  `id` int(11) NOT NULL,
+  `building_id` int(11) NOT NULL,
+  `room_number` varchar(10) NOT NULL,
+  `floor` varchar(20) DEFAULT NULL,
+  `capacity` int(11) DEFAULT 4,
+  `maintenance_status` enum('ok','urgent','pending') DEFAULT 'ok'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `rooms`
+--
+
+INSERT INTO `rooms` (`id`, `building_id`, `room_number`, `floor`, `capacity`, `maintenance_status`) VALUES
+(5, 1, '001', NULL, 4, 'ok'),
+(6, 1, '002', NULL, 4, 'ok'),
+(7, 1, '003', NULL, 4, 'ok'),
+(8, 1, '004', NULL, 4, 'ok'),
+(9, 1, '005', NULL, 4, 'ok'),
+(10, 1, '006', NULL, 4, 'ok'),
+(11, 1, '007', NULL, 4, 'ok'),
+(12, 1, '008', NULL, 4, 'ok'),
+(13, 1, '009', NULL, 4, 'ok'),
+(14, 1, '010', NULL, 4, 'ok'),
+(15, 2, '001', NULL, 4, 'ok'),
+(16, 2, '002', NULL, 4, 'ok'),
+(17, 2, '003', NULL, 4, 'ok'),
+(18, 2, '004', NULL, 4, 'ok'),
+(19, 2, '005', NULL, 4, 'ok'),
+(20, 2, '006', NULL, 4, 'ok'),
+(21, 2, '007', NULL, 4, 'ok'),
+(22, 2, '008', NULL, 4, 'ok'),
+(23, 2, '009', NULL, 4, 'ok'),
+(24, 2, '010', NULL, 4, 'ok'),
+(25, 3, '001', NULL, 4, 'ok'),
+(26, 3, '002', NULL, 4, 'ok'),
+(27, 3, '003', NULL, 4, 'ok'),
+(28, 3, '004', NULL, 4, 'ok'),
+(29, 3, '005', NULL, 4, 'ok'),
+(30, 3, '006', NULL, 4, 'ok'),
+(31, 3, '007', NULL, 4, 'ok'),
+(32, 3, '008', NULL, 4, 'ok'),
+(33, 3, '009', NULL, 4, 'ok'),
+(34, 3, '010', NULL, 4, 'ok');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `students`
+--
+
+CREATE TABLE `students` (
+  `id` int(11) NOT NULL,
+  `first_name` varchar(100) NOT NULL,
+  `last_name` varchar(100) NOT NULL,
+  `email` varchar(150) NOT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `major` varchar(100) DEFAULT NULL,
+  `photo_url` varchar(255) DEFAULT NULL,
+  `cin_url` varchar(255) DEFAULT NULL,
+  `attestation_url` varchar(255) DEFAULT NULL,
+  `is_repeating` tinyint(1) DEFAULT 0,
+  `status` enum('pending','accepted','rejected','enrolled','expelled') DEFAULT 'pending',
+  `room_id` int(11) DEFAULT NULL,
+  `annual_renewal_complete` tinyint(1) DEFAULT 0,
+  `registration_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `payment_slip_url` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `students`
+--
+
+INSERT INTO `students` (`id`, `first_name`, `last_name`, `email`, `password`, `major`, `photo_url`, `cin_url`, `attestation_url`, `is_repeating`, `status`, `room_id`, `annual_renewal_complete`, `registration_date`, `payment_slip_url`) VALUES
+(8, 'Claudia', 'Ornella', 'ornellaclaudia0@gmail.com', NULL, '', 'http://localhost/api-cit%C3%A9/uploads/photo_url_1777489161_ornellaclaudia0gmailcom.heic', 'http://localhost/api-cit%C3%A9/uploads/cin_url_1777489181_ornellaclaudia0gmailcom.jpg', 'http://localhost/api-cit%C3%A9/uploads/attestation_url_1777489170_ornellaclaudia0gmailcom.jpg', 0, 'enrolled', 5, 0, '2026-04-29 18:58:48', NULL),
+(9, '', '', 'marysam@gmail.com', NULL, NULL, NULL, NULL, NULL, 0, '', NULL, 0, '2026-04-29 19:47:32', NULL),
+(10, '', '', 'bella@gmail.com', NULL, NULL, NULL, NULL, NULL, 0, '', NULL, 0, '2026-04-29 19:48:20', NULL),
+(11, '', '', 'albert13@gmail.com', NULL, NULL, NULL, NULL, NULL, 0, '', NULL, 0, '2026-04-29 19:56:14', NULL),
+(12, '', '', 'fabiolat@gmail.com', NULL, NULL, NULL, NULL, NULL, 0, '', NULL, 0, '2026-04-29 20:02:58', NULL),
+(13, '', '', 'harina13@gmail.com', NULL, NULL, NULL, NULL, NULL, 0, '', NULL, 0, '2026-04-29 20:20:04', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `role` enum('admin','student') NOT NULL DEFAULT 'student',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `email`, `password`, `role`, `created_at`) VALUES
+(1, 'ornellaclaudia@gmail.com', 'ornellla123', 'student', '2026-04-24 19:14:23'),
+(2, 'admincite@gmail.com', 'admin123', 'admin', '2026-04-24 19:28:56'),
+(3, 'claudiarataveasy@gmail.com', 'rataveasy', 'student', '2026-04-24 19:56:49'),
+(4, 'albert@gmail.com', 'albert', 'student', '2026-04-24 20:30:54'),
+(5, 'harinah@gmail.com', 'harina123', 'student', '2026-04-25 06:53:26'),
+(6, 'samsia@gmail.com', 'samsia123', 'student', '2026-04-25 07:11:54'),
+(7, 'marysamtil@gmail.com', 'mary123', 'student', '2026-04-28 11:01:20'),
+(8, 'harina@gmail.com', 'harina', 'student', '2026-04-29 14:16:45'),
+(10, 'ornellaclaudia0@gmail.com', 'ornella', 'student', '2026-04-29 18:58:48'),
+(12, 'marysam@gmail.com', 'mary123', 'student', '2026-04-29 19:47:32'),
+(13, 'bella@gmail.com', 'bella123', 'student', '2026-04-29 19:48:20'),
+(15, 'albert13@gmail.com', 'albert123', 'student', '2026-04-29 19:56:14'),
+(16, 'fabiolat@gmail.com', 'fabiolat123', 'student', '2026-04-29 20:02:58'),
+(18, 'harina13@gmail.com', 'harina13', 'student', '2026-04-29 20:20:04');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `buildings`
+--
+ALTER TABLE `buildings`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `housing_requests`
+--
+ALTER TABLE `housing_requests`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `student_id` (`student_id`);
+
+--
+-- Indexes for table `maintenance_tickets`
+--
+ALTER TABLE `maintenance_tickets`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `room_id` (`room_id`);
+
+--
+-- Indexes for table `payments`
+--
+ALTER TABLE `payments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `student_id` (`student_id`);
+
+--
+-- Indexes for table `rooms`
+--
+ALTER TABLE `rooms`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `building_id` (`building_id`);
+
+--
+-- Indexes for table `students`
+--
+ALTER TABLE `students`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`),
+  ADD KEY `room_id` (`room_id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `buildings`
+--
+ALTER TABLE `buildings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `housing_requests`
+--
+ALTER TABLE `housing_requests`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `maintenance_tickets`
+--
+ALTER TABLE `maintenance_tickets`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `payments`
+--
+ALTER TABLE `payments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `rooms`
+--
+ALTER TABLE `rooms`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+
+--
+-- AUTO_INCREMENT for table `students`
+--
+ALTER TABLE `students`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `housing_requests`
+--
+ALTER TABLE `housing_requests`
+  ADD CONSTRAINT `housing_requests_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `maintenance_tickets`
+--
+ALTER TABLE `maintenance_tickets`
+  ADD CONSTRAINT `maintenance_tickets_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `payments`
+--
+ALTER TABLE `payments`
+  ADD CONSTRAINT `payments_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `rooms`
+--
+ALTER TABLE `rooms`
+  ADD CONSTRAINT `rooms_ibfk_1` FOREIGN KEY (`building_id`) REFERENCES `buildings` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `students`
+--
+ALTER TABLE `students`
+  ADD CONSTRAINT `students_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`id`) ON DELETE SET NULL;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -1,0 +1,112 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); }
+.quiz-wrap { padding: 1.5rem 0; max-width: 660px; }
+.header { margin-bottom: 1.5rem; }
+.header h2 { font-size: 18px; font-weight: 500; color: var(--color-text-primary); }
+.header p { font-size: 14px; color: var(--color-text-secondary); margin-top: 4px; }
+.progress-bar { height: 4px; background: var(--color-background-secondary); border-radius: 4px; margin: 1rem 0; }
+.progress-fill { height: 100%; background: #7F77DD; border-radius: 4px; transition: width 0.4s; }
+.score-row { display: flex; gap: 16px; margin-bottom: 1.5rem; }
+.score-pill { font-size: 13px; padding: 4px 12px; border-radius: 20px; font-weight: 500; }
+.pill-correct { background: #EAF3DE; color: #3B6D11; }
+.pill-wrong { background: #FCEBEB; color: #A32D2D; }
+.pill-total { background: var(--color-background-secondary); color: var(--color-text-secondary); }
+.question-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1.25rem; margin-bottom: 1rem; }
+.category-badge { font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 10px; margin-bottom: 10px; display: inline-block; }
+.cat-io { background: #E1F5EE; color: #0F6E56; }
+.cat-thread { background: #EEEDFE; color: #3C3489; }
+.cat-server { background: #FAEEDA; color: #854F0B; }
+.question-text { font-size: 15px; font-weight: 500; color: var(--color-text-primary); line-height: 1.5; margin-bottom: 1rem; }
+.options { display: flex; flex-direction: column; gap: 8px; }
+.option-btn { text-align: left; padding: 10px 14px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: var(--color-background-primary); color: var(--color-text-primary); font-size: 14px; cursor: pointer; transition: background 0.15s, border-color 0.15s; line-height: 1.4; }
+.option-btn:hover:not(:disabled) { background: var(--color-background-secondary); border-color: var(--color-border-primary); }
+.option-btn.correct { background: #EAF3DE; border-color: #639922; color: #27500A; }
+.option-btn.wrong { background: #FCEBEB; border-color: #E24B4A; color: #791F1F; }
+.option-btn.reveal { background: #EAF3DE; border-color: #639922; color: #27500A; }
+.option-btn:disabled { cursor: default; }
+.explanation { margin-top: 12px; padding: 10px 12px; background: var(--color-background-secondary); border-radius: var(--border-radius-md); font-size: 13px; color: var(--color-text-secondary); line-height: 1.5; border-left: 3px solid #7F77DD; display: none; }
+.nav-row { display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; }
+.nav-btn { padding: 8px 20px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: var(--color-background-primary); color: var(--color-text-primary); font-size: 14px; cursor: pointer; }
+.nav-btn:hover { background: var(--color-background-secondary); }
+.nav-btn.primary { background: #7F77DD; color: white; border-color: #7F77DD; }
+.nav-btn.primary:hover { background: #534AB7; }
+.nav-btn:disabled { opacity: 0.4; cursor: default; }
+.q-counter { font-size: 14px; color: var(--color-text-secondary); }
+.result-card { text-align: center; padding: 2rem; background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); }
+.result-score { font-size: 48px; font-weight: 500; color: #7F77DD; }
+.result-msg { font-size: 16px; color: var(--color-text-secondary); margin: 8px 0 1.5rem; }
+.result-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 1.5rem; }
+.stat-card { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 12px; }
+.stat-num { font-size: 22px; font-weight: 500; color: var(--color-text-primary); }
+.stat-lbl { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; }
+</style>
+
+<div class="quiz-wrap">
+  <div class="header">
+    <h2>QCM Java — Entrées/Sorties, Threads & Serveur</h2>
+    <p>20 questions sur les 3 cours</p>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+  <div class="score-row">
+    <span class="score-pill pill-correct" id="sc-ok">✓ 0</span>
+    <span class="score-pill pill-wrong" id="sc-ko">✗ 0</span>
+    <span class="score-pill pill-total" id="sc-tot">Q 1/20</span>
+  </div>
+  <div id="quiz-body"></div>
+</div>
+
+<script>
+const questions = [
+  { cat: "io", catLabel: "Entrées/Sorties",
+    q: "Quelle classe Java permet d'obtenir des informations sur un fichier (existence, taille, droits) ?",
+    opts: ["FileInputStream", "File", "FileReader", "BufferedReader"],
+    ans: 1, exp: "La classe File représente un chemin d'accès et expose des méthodes comme exists(), length(), canRead(), isDirectory()…" },
+  { cat: "io", catLabel: "Entrées/Sorties",
+    q: "Quelle valeur retourne read() lorsque la fin d'un flux est atteinte ?",
+    opts: ["0", "null", "-1", "false"],
+    ans: 2, exp: "La méthode read() retourne -1 pour signaler la fin du flux, valeur qu'on teste dans la condition de boucle." },
+  { cat: "io", catLabel: "Entrées/Sorties",
+    q: "Pour ajouter des données à la fin d'un fichier existant sans l'écraser, on utilise :",
+    opts: ["new FileOutputStream(nom)", "new FileOutputStream(nom, true)", "new FileWriter(nom, false)", "new FileOutputStream(nom, false)"],
+    ans: 1, exp: "Le deuxième argument boolean à true active le mode append (ajout en fin de fichier)." },
+  { cat: "io", catLabel: "Entrées/Sorties",
+    q: "Quel est l'avantage principal d'utiliser un BufferedInputStream ?",
+    opts: ["Il lit des caractères Unicode", "Il permet l'accès direct à une position", "Il réduit considérablement le nombre d'accès disque", "Il supporte la sérialisation"],
+    ans: 2, exp: "Le buffer regroupe les lectures en blocs, réduisant les accès disque. Dans le cours : 1578ms sans buffer → 94ms avec." },
+  { cat: "io", catLabel: "Entrées/Sorties",
+    q: "Quelle classe permet de lire une ligne entière de texte avec readLine() ?",
+    opts: ["FileReader", "DataInputStream", "BufferedReader", "ObjectInputStream"],
+    ans: 2, exp: "BufferedReader dispose de readLine() qui lit jusqu'au caractère de fin de ligne." },
+  { cat: "io", catLabel: "Entrées/Sorties",
+    q: "Pour écrire un int, un boolean et un double dans un fichier binaire, on utilise :",
+    opts: ["FileWriter", "PrintWriter", "DataOutputStream", "BufferedWriter"],
+    ans: 2, exp: "DataOutputStream fournit writeInt(), writeBoolean(), writeDouble()… pour écrire les types primitifs Java." },
+  { cat: "io", catLabel: "Entrées/Sorties",
+    q: "Quelle classe permet un accès aléatoire (lecture/écriture à n'importe quelle position) dans un fichier ?",
+    opts: ["FileInputStream", "RandomAccessFile", "ByteArrayInputStream", "DataInputStream"],
+    ans: 1, exp: "RandomAccessFile dispose de seek(position) et getFilePointer() pour naviguer librement dans le fichier." },
+  { cat: "io", catLabel: "Entrées/Sorties",
+    q: "La sérialisation en Java nécessite que la classe implémente :",
+    opts: ["Runnable", "Cloneable", "Serializable", "Comparable"],
+    ans: 2, exp: "Seuls les objets dont la classe implémente l'interface Serializable peuvent être sérialisés via ObjectOutputStream." },
+  { cat: "thread", catLabel: "Threads",
+    q: "Quelle méthode doit-on appeler pour démarrer un thread (et non exécuter run() directement) ?",
+    opts: ["run()", "execute()", "start()", "launch()"],
+    ans: 2, exp: "start() crée un nouveau thread dans la JVM et appelle run() dessus. Appeler run() directement n'ouvre pas de thread séparé." },
+  { cat: "thread", catLabel: "Threads",
+    q: "Quelle est la différence principale entre 'extends Thread' et 'implements Runnable' ?",
+    opts: ["Runnable est plus lente", "extends Thread permet de partager des données", "implements Runnable permet encore d'hériter d'une autre classe", "Il n'y a aucune différence"],
+    ans: 2, exp: "Java n'autorise pas l'héritage multiple : avec extends Thread, on ne peut plus hériter d'une autre classe. Runnable laisse l'héritage libre." },
+  { cat: "thread", catLabel: "Threads",
+    q: "Qu'est-ce que fait Thread.sleep(1000) ?",
+    opts: ["Arrête définitivement le thread", "Suspend le thread courant pendant 1000 millisecondes", "Attend qu'un autre thread se termine", "Met tous les threads en pause"],
+    ans: 1, exp: "sleep() suspend uniquement le thread courant pendant la durée spécifiée (en ms), puis il redevient exécutable." },
+  { cat: "thread", catLabel: "Threads",
+    q: "Que fait la méthode join() ?",
+    opts: ["Fusionne deux threads en un", "Bloque le thread appelant jusqu'à la fin du thread cible", "Démarre le thread", "Partage les données entre threads"],
+    ans: 1, exp: "T1.join() bloque le thread courant jusqu'à ce que T1 termine son run(). Utile pour séquencer des threads." },
+  { cat: "thread", catLabel: "Threads",
+    q: "Le mot-clé 'synchronized' sur une méthode signifie :",
+    opts

@@ -1,0 +1,26 @@
+gestion_cite_universitaire/
+├── 📁 node_modules/             # Dépendances installées (npm/yarn)
+├── 📁 src/                      # Code source de l'application
+│   ├── 📁 components/           # Composants UI réutilisables
+│   │   └── Layout.tsx           # Structure globale (Sidebar, Navbar, etc.)
+│   ├── 📁 pages/                # Pages complètes (Vues)
+│   │   ├── AdminDashboard.tsx   # Tableau de bord administrateur
+│   │   ├── Login.tsx            # Page de connexion
+│   │   ├── MaintenanceRequests.tsx # Gestion des réparations
+│   │   ├── RoomInventory.tsx    # Gestion de l'inventaire des chambres
+│   │   ├── StudentPortal.tsx    # Interface côté étudiant
+│   │   └── StudentRegistration.tsx # Formulaire d'inscription
+│   ├── 📁 services/             # Logique de communication externe
+│   │   └── api.ts               # Configuration Axios/Fetch pour le backend
+│   ├── App.tsx                  # Composant racine & Gestion des routes (React Router)
+│   ├── main.tsx                 # Point d'entrée React (montage sur le DOM)
+│   ├── types.ts                 # Interfaces TypeScript (ex: Student, Room, Request)
+│   └── index.css                # Styles CSS globaux (Tailwind ou standard)
+├── 📄 .env.example              # Modèle des variables d'environnement
+├── 📄 .gitignore                # Fichiers à ignorer par Git
+├── 📄 firebase-blueprint.json   # Configuration/Schéma pour Firebase
+├── 📄 GUIDE_XAMPP_PHP.md        # Documentation pour le backend local
+├── 📄 index.html                # Fichier HTML principal (point d'ancrage)
+├── 📄 package.json              # Scripts, dépendances et métadonnées
+├── 📄 tsconfig.json             # Configuration du compilateur TypeScript
+└── 📄 vite.config.ts            # Configuration du serveur de dev Vite
