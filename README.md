@@ -8,24 +8,22 @@ Ce guide est spécialement conçu pour vous aider à installer, configurer et ex
 
 ## 🛠️ Outils & Technologies Utilisés dans le Projet
 
-Le projet a été développé en utilisant des outils de pointe pour le frontend et une architecture simple et robuste pour le backend.
-
 ### 💻 Frontend (Interface Utilisateur)
-*   **React 18 & Vite** : Framework web performant caractérisé par un rechargement instantané lors du développement et une compilation optimisée pour la mise en ligne.
-*   **TypeScript** : Version typée de JavaScript assurant la robustesse du code, l'auto-complétion et limitant la présence de bugs en cours d'exécution.
-*   **Tailwind CSS** : Cadre de style CSS moderne permettant d'édifier des designs originaux rapidement avec des classes utilitaires fluides et réactives.
-*   **Motion (React)** : Librairie d'animation haut de gamme permettant d'orchestrer des transitions douces et interactives lors des changements d'onglets ou d'ouverture de boîtes.
-*   **Lucide React** : Ensemble d'icônes vectorielles épurées harmonisant visuellement chaque action (boutons, statuts, alertes).
-*   **Recharts** : Bibliothèque de data-visualisation pour dessiner les statistiques d'occupation et la situation financière côté administrateur.
+*   **React 18 & Vite**
+*   **TypeScript**
+*   **Tailwind CSS**
+*   **Motion (React)**
+*   **Lucide React**
+*   **Recharts**
 
 ### 🛰️ Backend (Moteur Applicatif & Fichiers)
-*   **PHP (PHP 8+)** : Environnement serveur utilisé pour concevoir l’ensemble des API d'accès à la base de données.
-*   **XAMPP (Apache Server)** : Kit d'hébergement local utilisé pour propulser le serveur PHP et gérer le trafic d'API en local.
-*   **API REST JSON** : Norme de communication. React envoie des requêtes réseaux via l’API native de navigation de fichiers binaires `FormData` et le protocole standardisé `fetch()` de JavaScript, et le backend PHP répond sous forme de structures JSON encodées en UTF-8.
+*   **PHP (PHP 8+)**
+*   **XAMPP (Apache Server)**
+*   **API REST JSON**
 
 ### 🗄️ Base de Données (Stockage Durable)
-*   **MySQL / MariaDB** : Système de gestion de base de données relationnelle (SGBDR) utilisé pour enregistrer les profils civils des résidents, l’état des bâtiments/chambres et les requêtes logistiques.
-*   **phpMyAdmin** : Interface d'administration web fournie avec XAMPP pour gérer les tables de données graphiquement, importer des scripts SQL et contrôler les données.
+*   **MySQL / MariaDB** 
+*   **phpMyAdmin** avec XAMPP 
 
 ---
 
@@ -191,14 +189,3 @@ Si vous devez présenter ce projet à un examen, la gestion d'upload de fichiers
 
 ---
 
-## ♿ Les Principes d'Ergonomie Respectés (Norme IHM)
-
-Ce projet a été conçu selon les exigences d'utilisabilité de référence du standard des **8 Critères de Bastien & Scapin** en ergonomie interactive :
-1.  **Guidage** (statut du dossier clairement marqué de couleur rouge/vert/orange, bouton chargeant montrant l'état `PATIENTER...` pour guider le chargement).
-2.  **Charge Mentale Réduite** (regroupement des KPIs clés de l'administrateur dans des cartes bento intuitives pour lecture immédiate).
-3.  **Contrôle Explicite** (permettre d'annuler ou valider explicitement chaque demande, modales de confirmation).
-4.  **Adaptabilité / Responsive Design** (grille d'interface fluide s'adaptant à toutes les résolutions tactiles de téléphones portables et tablettes d'agents d'entretien).
-5.  **Gestion Protectrice des Erreurs** (utilisation de structures préventives `try/catch` de sécurité évitant à l'application de crasher en cas d'absence ou défaillance du serveur local XAMPP).
-6.  **Homogénéité visuelle** (cohérence sémantique des boutons et icônes, utilisation d’une charte de couleur stable construite sur des teintes ardoise/graphite).
-7.  **Signifiance des dénominations** (boutons accompagnés de textes d'explication clairs au lieu d'icônes ambiguës isolées).
-8.  **Compatibilité standard** (respect de la conformité HTML5 standard, utilisation des composants d'entrée de saisie natifs et compatibilité de transmission AJAX vers tous les navigateurs récents du marché).
